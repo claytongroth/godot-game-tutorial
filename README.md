@@ -1,4 +1,4 @@
-# Dodge the Creeps 2D assets
+# Me Learning C# and Godot with "Dodge the Creeps 2D assets"
 
 Used by the "Your first 2D game" tutorial:
 
