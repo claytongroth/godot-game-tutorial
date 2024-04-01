@@ -10,20 +10,31 @@ public partial class Main : Node
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		GD.Print("New Game!");
-		NewGame();
+		GD.Print("_Ready!");
+		//NewGame();
 	}
 	
 	private void game_over()
 	{
 		GD.Print("Should be Game Over!");
+		GetNode<AudioStreamPlayer>("Music").Stop();
+		GetNode<AudioStreamPlayer>("DeathSound").Play();
 		GetNode<Timer>("MobTimer").Stop();
 		GetNode<Timer>("ScoreTimer").Stop();
+		GetNode<HUD>("HUD").ShowGameOver();
 	}
 	
 	public void NewGame()
 	{
+		GD.Print("NEW GAME!!!");
 		_score = 0;
+		GetNode<AudioStreamPlayer>("Music").Play();
+		
+		var hud = GetNode<HUD>("HUD");
+		hud.UpdateScore(_score);
+		hud.ShowMessage("Get Ready!");
+		
+		GetTree().CallGroup("mobs", Node.MethodName.QueueFree);
 
 		var player = GetNode<Player>("Player");
 		var startPosition = GetNode<Marker2D>("StartPosition");
@@ -66,6 +77,7 @@ public partial class Main : Node
 	private void _on_score_timer_timeout()
 	{
 		_score++;
+		GetNode<HUD>("HUD").UpdateScore(_score);
 	}
 
 
@@ -76,10 +88,3 @@ public partial class Main : Node
 	}
 
 }
-
-
-
-
-
-
-
